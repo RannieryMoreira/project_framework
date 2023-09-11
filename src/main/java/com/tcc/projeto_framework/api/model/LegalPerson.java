@@ -2,20 +2,31 @@ package com.tcc.projeto_framework.api.model;
 
 public class LegalPerson implements Person {
 
+	private Integer id;
 	private String name;
 	private String cnpj;
 	private double salary;
 	private double expense;
 
-	public LegalPerson(String name, String cnpj, double salary) {
+	public LegalPerson(Integer id, String name, String cnpj, double salary, double expense) {
+		this.id = id;
 		this.name = name;
 		this.cnpj = cnpj;
 		this.salary = salary;
+		this.expense = expense;
 	}
 	
 	@Override
 	public void calculateExpense() {
 	this.expense = this.salary * 1;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getName() {

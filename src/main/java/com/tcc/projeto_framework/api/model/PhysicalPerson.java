@@ -2,20 +2,31 @@ package com.tcc.projeto_framework.api.model;
 
 public class PhysicalPerson implements Person {
 
+	private Integer id;
 	private String name;
 	private String cpf;
 	private double salary;
 	private double expense;
-	
-	public PhysicalPerson(String name, String cpf, double salary) {
+
+	public PhysicalPerson(Integer id, String name, String cpf, double salary, double expense) {
+		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
 		this.salary = salary;
+		this.expense = expense;
 	}
-	
+
 	@Override
 	public void calculateExpense() {
 		this.expense = this.salary * 2;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getName() {
