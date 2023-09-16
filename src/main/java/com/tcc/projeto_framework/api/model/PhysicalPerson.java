@@ -1,6 +1,6 @@
 package com.tcc.projeto_framework.api.model;
 
-public class PhysicalPerson implements Person {
+public class PhysicalPerson extends Person {
 
 	private Integer id;
 	private String name;
@@ -16,10 +16,23 @@ public class PhysicalPerson implements Person {
 		this.expense = expense;
 	}
 
-	@Override
-	public void calculateExpense() {
-		this.expense = this.salary * 2;
-	}
+
+    @Override
+    protected double calculateTax(double baseSalary) {
+    	double fgts = baseSalary * 0.08;
+    	double vacation_fraction = baseSalary * 0.1111;
+    	double thirteenth_fraction = baseSalary * 0.0833;
+    	double tax = fgts + vacation_fraction + thirteenth_fraction;
+        return tax;
+    }
+
+    @Override
+    protected double calculateBenefitExpenses(double baseSalary) {
+    	double food_voucher = 580.0;
+    	double transport_voucher = 250;
+    	double benefit = food_voucher + transport_voucher;
+        return benefit;
+    }
 
 	public Integer getId() {
 		return id;
@@ -28,6 +41,11 @@ public class PhysicalPerson implements Person {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+	public void setExpense(double expense) {
+		this.expense = expense;
+	}
+
 
 	public String getName() {
 		return name;

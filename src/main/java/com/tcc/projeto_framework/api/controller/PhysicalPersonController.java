@@ -25,7 +25,7 @@ public class PhysicalPersonController {
 	@PostMapping
 	@ResponseBody
 	public PhysicalPerson create(@RequestBody PhysicalPerson person) {
-		person.calculateExpense();	
+		person.setExpense(person.calculateExpense(person.getSalary()));	
 		return physicalPersonFacade.create(person);
 	}
 	
@@ -42,7 +42,7 @@ public class PhysicalPersonController {
 	
 	@PutMapping("/{id}")
     public ResponseEntity<?> updatePersonById(@RequestBody PhysicalPerson person, @PathVariable int id) {
-		person.calculateExpense();
+		person.setExpense(person.calculateExpense(person.getSalary()));	
         return physicalPersonFacade.updateById(person, id);
     }
 	

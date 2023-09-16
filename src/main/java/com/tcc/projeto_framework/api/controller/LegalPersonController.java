@@ -27,7 +27,7 @@ public class LegalPersonController {
 	@PostMapping
 	@ResponseBody
 	public LegalPerson create(@RequestBody LegalPerson person) {
-		person.calculateExpense();	
+		person.setExpense(person.calculateExpense(person.getSalary()));	
 		return legalPersonFacade.create(person);
 	}
 	
@@ -44,7 +44,7 @@ public class LegalPersonController {
 	
 	@PutMapping("/{id}")
     public ResponseEntity<?> updatePersonById(@RequestBody LegalPerson person, @PathVariable int id) {
-		person.calculateExpense();
+		person.setExpense(person.calculateExpense(person.getSalary()));	
         return legalPersonFacade.updateById(person, id);
     }
 	
