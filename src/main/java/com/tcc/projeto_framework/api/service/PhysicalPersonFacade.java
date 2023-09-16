@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.tcc.projeto_framework.api.database.DatabaseConnectionManager;
@@ -30,5 +31,13 @@ public class PhysicalPersonFacade {
 	
 	public Optional<PhysicalPerson> getById(int id) {
 		return physicalPersonDao.getPhysicalPersonById(id, connection);
+	}
+	
+	public ResponseEntity<?> updateById(PhysicalPerson person, int id) {
+		return physicalPersonDao.updatePhysicalPersonById(person, id, connection);
+	}
+
+	public ResponseEntity<?> deleteById(int id) {
+		return physicalPersonDao.deletePhysicalPersonById(id, connection);
 	}
 }

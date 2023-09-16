@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import com.tcc.projeto_framework.api.model.PhysicalPerson;
@@ -87,4 +89,48 @@ public class PhysicalPersonDao {
             return Optional.empty();
         }
     }
+
+	public ResponseEntity<?> updatePhysicalPersonById(PhysicalPerson person, int id, Connection connection) {
+		try {
+            String sql = "UPDATE physical_persons SET name = ?, cpf = ?, salary = ?, expense = ? WHERE id = ?";
+            
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, person.getName());
+            statement.setString(2, person.getCpf());
+            statement.setDouble(3, person.getSalary());
+            statement.setDouble(4, person.getExpense());
+            statement.setInt(5, id);
+
+            int updatedRowsNumber = statement.executeUpdate();
+            
+            if (updatedRowsNumber == 0) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok().body(person);
+
+        } catch (SQLException e) {
+        	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar a entidade: " + e.getMessage());
+        }
+	}
+
+	public ResponseEntity<?> deletePhysicalPersonById(int id, Connection connection) {
+		try {
+            String sql = "DELETE FROM physical_persons WHERE id = ?";
+            
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            int deletedRowsNumber = statement.executeUpdate();
+            
+            if (deletedRowsNumber == 0) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok().build();
+
+        } catch (SQLException e) {
+        	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir o recurso: " + e.getMessage());
+        }
+	}
 }
