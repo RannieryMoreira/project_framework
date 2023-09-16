@@ -1,25 +1,45 @@
 package com.tcc.projeto_framework.api.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.sql.Connection;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.tcc.projeto_framework.api.database.DatabaseConnectionManager;
+import com.tcc.projeto_framework.api.database.dao.LegalPersonDao;
 import com.tcc.projeto_framework.api.model.LegalPerson;
 
 @Service
 public class LegalPersonFacade {
-private static final Map<Long, LegalPerson> persons = new HashMap<>();
-	
-	public LegalPerson create(LegalPerson person) {
-		Long nextId = persons.keySet().size() + 1L;
-		persons.put(nextId, person);
-		return person;
+	@Autowired
+	private LegalPersonDao legalPersonDao;
+
+	private final Connection connection;
+
+	public LegalPersonFacade() {
+		this.connection = DatabaseConnectionManager.getInstance().getConnection();
 	}
 	
-	public List<LegalPerson> getAll() {
-		return new ArrayList<>(persons.values());
+	public LegalPerson create(LegalPerson person) {
+		return legalPersonDao.insertLegalPerson(person, connection);
+	}
+	
+	public Optional<List<LegalPerson>> getAll() {
+		return legalPersonDao.getAllLegalPerson(connection);
+	}
+	
+	public Optional<LegalPerson> getById(int id) {
+		return legalPersonDao.getLegalPersonById(id, connection);
+	}
+	
+	public ResponseEntity<?> updateById(LegalPerson person, int id) {
+		return legalPersonDao.updateLegalPersonById(person, id, connection);
+	}
+
+	public ResponseEntity<?> deleteById(int id) {
+		return legalPersonDao.deleteLegalPersonById(id, connection);
 	}
 }

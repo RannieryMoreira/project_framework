@@ -56,8 +56,4 @@ public class PhysicalPerson implements Person {
 	public double getExpense() {
 		return expense;
 	}
-
-	public void setExpense(double expense) {
-		this.expense = expense;
-	}
 }
