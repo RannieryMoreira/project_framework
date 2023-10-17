@@ -36,11 +36,13 @@ public class PhysicalPersonController {
 	}
 
 	@GetMapping("/{id}")
+	@ResponseBody
     public Optional<PhysicalPerson> getPersonById(@PathVariable int id) {
         return physicalPersonFacade.getById(id);
     }
 	
 	@PutMapping("/{id}")
+	@ResponseBody
     public ResponseEntity<?> updatePersonById(@RequestBody PhysicalPerson person, @PathVariable int id) {
 		person.setExpense(person.calculateExpense(person.getSalary()));	
         return physicalPersonFacade.updateById(person, id);

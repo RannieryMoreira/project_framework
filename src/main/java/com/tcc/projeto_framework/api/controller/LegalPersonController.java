@@ -36,13 +36,15 @@ public class LegalPersonController {
 	public Optional<List<LegalPerson>> getAll(){
 		return legalPersonFacade.getAll();
 	}
-
+	
 	@GetMapping("/{id}")
+	@ResponseBody
     public Optional<LegalPerson> getPersonById(@PathVariable int id) {
         return legalPersonFacade.getById(id);
     }
 	
 	@PutMapping("/{id}")
+	@ResponseBody
     public ResponseEntity<?> updatePersonById(@RequestBody LegalPerson person, @PathVariable int id) {
 		person.setExpense(person.calculateExpense(person.getSalary()));	
         return legalPersonFacade.updateById(person, id);
